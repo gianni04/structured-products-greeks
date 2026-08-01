@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "structrisk"
+version = "1.0.0"
+description = "Pricing d'options et de produits structures : Black-Scholes-Merton et jeu complet de Grecques, vol implicite, arbre binomial CRR, Monte Carlo vectorise, autocall/reverse convertible/bonus cap/note a capital protege/worst-of, agregation de portefeuille et couverture delta discrete."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+license = { text = "MIT" }
+authors = [{ name = "Gianni Pilotti" }]
+keywords = [
+    "structured-products",
+    "options-pricing",
+    "greeks",
+    "black-scholes",
+    "monte-carlo",
+    "risk-management",
+    "asset-management",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "numpy==1.26.*",
+    "pandas==3.0.*",
+    "scipy==1.15.*",
+    "matplotlib==3.10.*",
+    "statsmodels==0.14.*",
+    "scikit-learn==1.9.*",
+    "openpyxl",
+    "xlsxwriter",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
