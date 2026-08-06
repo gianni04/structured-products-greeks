@@ -1,10 +1,4 @@
-"""Exemple 3 : valorisation Monte Carlo d'un Autocall Phoenix, probabilité de
-rappel par date d'observation, et sensibilité du prix à la barrière de rappel.
-
-Produit type banque privée : 4 observations semestrielles sur 2 ans,
-coupon conditionnel à effet mémoire, barrière de rappel à 100%, barrière de
-protection à 60%.
-"""
+"""Valorisation Monte Carlo d'un Autocall Phoenix, probabilité de rappel par date d'observation, et sensibilité du prix à la barrière de rappel."""
 
 from __future__ import annotations
 

@@ -1,11 +1,4 @@
-"""Exemple 1 : Grecques (delta, gamma, vega, theta) en fonction du spot et
-de la maturité pour un call vanille.
-
-Illustre la déformation classique des Grecques près de la monnaie à
-l'approche de l'échéance (pic de gamma/theta) et leur aplatissement pour
-les maturités longues -- lecture standard d'un book d'options en salle de
-marché.
-"""
+"""Grecques (delta, gamma, vega, theta) en fonction du spot et de la maturité pour un call vanille."""
 
 from __future__ import annotations
 
@@ -70,7 +63,6 @@ out_path = OUT_DIR / "01_greeks_surface.png"
 fig.savefig(out_path)
 plt.close(fig)
 
-# Chiffres clés pour le README
 atm_1y = {
     "delta": float(delta(STRIKE, STRIKE, 1.0, RATE, DIVIDEND, VOL, "call")),
     "gamma": float(gamma(STRIKE, STRIKE, 1.0, RATE, DIVIDEND, VOL)),

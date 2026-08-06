@@ -1,5 +1,4 @@
-"""Tests du module montecarlo : le prix Monte Carlo d'un call vanille doit
-contenir le prix analytique Black-Scholes dans son intervalle de confiance."""
+"""Tests du module montecarlo : le prix Monte Carlo d'un call vanille doit contenir le prix analytique Black-Scholes dans son intervalle de confiance."""
 
 from __future__ import annotations
 

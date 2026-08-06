@@ -1,11 +1,4 @@
-"""Exemple 5 : erreur de réplication (delta-hedging discret) en fonction de
-la fréquence de rehedge et des coûts de transaction.
-
-Illustre le compromis classique du trading d'options : un rehedge plus
-fréquent réduit le risque de gamma non couvert entre deux dates (écart-type
-de l'erreur qui décroît), mais augmente les coûts de transaction cumulés --
-d'où un optimum de fréquence dès lors que les coûts sont non nuls.
-"""
+"""Erreur de réplication (delta-hedging discret) en fonction de la fréquence de rehedge et des coûts de transaction."""
 
 from __future__ import annotations
 

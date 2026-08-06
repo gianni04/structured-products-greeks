@@ -6,15 +6,13 @@
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
 ![tests: 14 passed](https://img.shields.io/badge/tests-14%20passed-brightgreen)
 
-## Pourquoi ce projet
+## Ce que fait le projet
 
-En société de gestion, le suivi du risque d'un book d'options et de produits structurés repose sur trois briques : **valoriser** correctement chaque instrument (y compris les structures à barrière, qui n'ont pas de formule fermée), **décomposer** ce risque en Grecques exploitables au quotidien (delta-hedge, budget de vega, coût de rehedge), et **agréger** ces Grecques au niveau du portefeuille pour piloter les limites d'exposition. Ce projet reconstruit ces trois briques de zéro, avec :
+Le suivi du risque d'un book d'options et de produits structurés repose sur trois briques : valoriser chaque instrument (y compris les structures à barrière, sans formule fermée), décomposer ce risque en Grecques exploitables au quotidien (delta-hedge, budget de vega, coût de rehedge), et agréger ces Grecques au niveau du portefeuille pour piloter les limites d'exposition. Ce projet couvre les trois :
 
-- des Grecques d'ordre supérieur (vanna, volga, charm...) rarement implémentées dans des exemples pédagogiques mais couramment utilisées pour le risque de smile et le rehedge dynamique ;
-- des produits structurés valorisés par Monte Carlo avec réduction de variance et Grecques stables par bump-and-revalue à nombres aléatoires communs (indispensable dès qu'un payoff est discontinu, comme un autocall) ;
-- une couche d'agrégation de portefeuille (delta-équivalent en euros, gamma/vega par choc, grille de stress spot x vol) directement transposable à un reporting de suivi de portefeuilles modèles.
-
-C'est directement le périmètre d'un poste de suivi de produits structurés et de compréhension des Grecques en gestion des risques de marché : le code ici n'est pas un pricer boîte noire, chaque formule est documentée avec son usage opérationnel.
+- des Grecques d'ordre supérieur (vanna, volga, charm...) couramment utilisées pour le risque de smile et le rehedge dynamique ;
+- des produits structurés valorisés par Monte Carlo avec réduction de variance et Grecques stables par bump-and-revalue à nombres aléatoires communs (nécessaire dès qu'un payoff est discontinu, comme un autocall) ;
+- une couche d'agrégation de portefeuille (delta-équivalent en euros, gamma/vega par choc, grille de stress spot x vol) transposable à un reporting de suivi de portefeuilles modèles.
 
 ## Grecques implémentées
 
@@ -92,13 +90,7 @@ Portefeuille (call long, put court, note à capital protégé, bonus cappé, tou
 
 Sans coût de transaction, l'écart-type de l'erreur de réplication passe de 5,40 (1 seul rehedge sur la vie de l'option) à 0,39 (rehedge quotidien, 252 fois) -- la convergence attendue en 1/racine(n) du risque de gamma non couvert. Avec un coût de 10 bps par rehedge, le biais moyen (coût cumulé) se dégrade de -0,11 (1 rehedge) à -0,56 (252 rehedges) : au-delà d'une certaine fréquence, les coûts de transaction dominent le gain de précision, d'où l'arbitrage fréquence/coût typique d'un desk de trading d'options.
 
-## Limites & hypothèses
-
-- **Modèle Black-Scholes-Merton** : volatilité constante par actif (pas de vol stochastique, pas de sauts de type Merton/Bates) ; les résultats sur la surface de vol sont une paramétrisation synthétique, pas calibrée sur des données de marché.
-- **Pas de risque de crédit émetteur** : les produits structurés sont valorisés comme des payoffs garantis par construction, sans prime de défaut de l'émetteur (en pratique déduite du prix via son spread de crédit).
-- **Discrétisation des barrières** : une barrière « continue » est en réalité surveillée sur la grille de pas de temps simulés (ex : hebdomadaire) ; cela sous-estime structurellement la probabilité de franchissement par rapport à une vraie barrière continue (biais documenté et quantifiable en augmentant `n_steps`).
-- **Taux et dividendes déterministes** : pas de risque de taux stochastique (pas de modèle de type Hull-White), dividendes modélisés en taux continu constant plutôt qu'en montants discrets.
-- **Grecques d'ordre supérieur pour les structures** : uniquement calculées par bump-and-revalue (pas de formule fermée pour les payoffs à barrière), avec un coût de calcul et un bruit résiduel même en nombres aléatoires communs.
+Le modèle est Black-Scholes-Merton avec volatilité constante par actif (pas de vol stochastique, pas de sauts de type Merton/Bates) ; la surface de vol utilisée est une paramétrisation synthétique. Les produits structurés sont valorisés comme des payoffs garantis par construction, sans prime de défaut de l'émetteur. Une barrière « continue » est surveillée sur la grille de pas de temps simulés (ex : hebdomadaire), ce qui sous-estime la probabilité de franchissement par rapport à une vraie barrière continue — biais quantifiable en augmentant `n_steps`. Les Grecques d'ordre supérieur des structures sont calculées par bump-and-revalue, faute de formule fermée pour les payoffs à barrière.
 
 ## Bibliographie
 

@@ -1,5 +1,4 @@
-"""Tests du module pricing_structured : bornes de non-arbitrage du prix
-d'un Autocall Phoenix."""
+"""Tests du module pricing_structured : bornes de non-arbitrage du prix d'un Autocall Phoenix."""
 
 from __future__ import annotations
 
@@ -30,11 +29,8 @@ def test_autocall_price_within_no_arbitrage_bounds():
     spec = _spec()
     result = price_phoenix_autocall(SPOT, VOL, RATE, DIVIDEND, CORR, spec,
                                      n_paths=100_000, seed=7)
-    # Borne haute : nominal + tous les coupons payes des la premiere date,
-    # actualises au taux sans risque (scenario le plus favorable possible).
     n_obs = len(spec.observation_times)
     max_possible = spec.notional + spec.coupon_rate * spec.notional * n_obs
-    # Borne basse : perte totale du capital, aucun coupon.
     min_possible = 0.0
     assert min_possible <= result.price <= max_possible
 

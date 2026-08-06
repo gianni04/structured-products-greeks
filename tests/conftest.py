@@ -1,5 +1,4 @@
-"""Configuration pytest partagee : rend le package src/structrisk importable
-sans installation prealable (pas de dependance a un `pip install -e .`)."""
+"""Configuration pytest partagee : rend le package src/structrisk importable sans installation prealable (pas de dependance a un `pip install -e .`)."""
 
 from __future__ import annotations
 

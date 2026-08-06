@@ -1,11 +1,4 @@
-"""Exemple 2 : surface de volatilité implicite synthétique (smile + structure
-par terme) et coupes du smile par maturité.
-
-La surface est générée par la paramétrisation quadratique en log-moneyness
-de ``implied_vol.SmileParams`` (pas de données de marché téléchargées --
-projet 100% hors ligne), avec un skew négatif typique actions qui s'aplatit
-sur les maturités longues.
-"""
+"""Surface de volatilité implicite synthétique (smile + structure par terme) et coupes du smile par maturité."""
 
 from __future__ import annotations
 
@@ -61,7 +54,6 @@ out_path = OUT_DIR / "02_vol_surface.png"
 fig.savefig(out_path)
 plt.close(fig)
 
-# Vérification de la grille interpolée + chiffres clés
 grid = VolSurfaceGrid(strikes, maturities, SPOT, RATE, DIVIDEND, params)
 vol_atm_1y = grid.interpolate(SPOT, 1.0)
 vol_90_1y = grid.interpolate(90.0, 1.0)

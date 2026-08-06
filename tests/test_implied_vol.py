@@ -26,8 +26,6 @@ def test_implied_vol_round_trip_put():
 
 
 def test_implied_vol_round_trip_deep_itm_uses_brent_fallback():
-    # Option tres in-the-money : prix quasi-intrinseque, vega proche de 0,
-    # exerce le repli Brent documente dans implied_vol.
     deep_strike = 40.0
     price = bs_price(SPOT, deep_strike, MATURITY, RATE, DIVIDEND, VOL, "call")
     recovered_vol = implied_vol(price, SPOT, deep_strike, MATURITY, RATE, DIVIDEND, "call")

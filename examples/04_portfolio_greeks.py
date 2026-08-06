@@ -1,11 +1,4 @@
-"""Exemple 4 : agrégation des Grecques d'un portefeuille mixte options
-vanille + produits structurés, et heatmap de la grille de stress spot x vol.
-
-Portefeuille illustratif d'un book de gestion de risque : deux options
-vanille sur un même sous-jacent (couverture partielle), une note à capital
-protégé (décomposition analytique) et un certificat bonus cappé (valorisé
-par Monte Carlo).
-"""
+"""Agrégation des Grecques d'un portefeuille mixte options vanille + produits structurés, et heatmap de la grille de stress spot x vol."""
 
 from __future__ import annotations
 
@@ -41,7 +34,6 @@ SEED = 11
 OUT_DIR = Path(__file__).resolve().parent.parent / "docs" / "img"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Position 1 : call vanille long, 1000 contrats
 call_strike = 105.0
 call_greeks = all_greeks(SPOT, call_strike, MATURITY, RATE, DIVIDEND, VOL, "call")
 pos_call = Position(
@@ -49,7 +41,6 @@ pos_call = Position(
     spot=SPOT, greeks=call_greeks, price=call_greeks["price"],
 )
 
-# Position 2 : put vanille court (vente de protection), 600 contrats
 put_strike = 95.0
 put_greeks = all_greeks(SPOT, put_strike, MATURITY, RATE, DIVIDEND, VOL, "put")
 pos_put = Position(
@@ -57,7 +48,6 @@ pos_put = Position(
     spot=SPOT, greeks=put_greeks, price=put_greeks["price"],
 )
 
-# Position 3 : note à capital protégé, 50 unités de nominal 1000
 note_spec = CapitalProtectedNoteSpec(
     notional=1000.0, protection_level=1.00, participation_rate=0.80, strike_level=1.00, cap_level=1.30,
 )
@@ -78,7 +68,6 @@ pos_note = Position(
     price=note_price,
 )
 
-# Position 4 : certificat bonus cappé, valorisé par Monte Carlo (bump-and-revalue CRN)
 bonus_spec = BonusCapSpec(notional=1000.0, barrier=0.70, bonus_level=1.05, cap_level=1.25)
 n_paths_bonus = 100_000
 n_steps_bonus = 52

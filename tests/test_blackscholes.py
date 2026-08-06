@@ -1,5 +1,4 @@
-"""Tests du module blackscholes : parite call-put, delta analytique vs
-difference finie, positivite du gamma."""
+"""Tests du module blackscholes : parite call-put, delta analytique vs difference finie, positivite du gamma."""
 
 from __future__ import annotations
 

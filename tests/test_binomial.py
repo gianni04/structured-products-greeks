@@ -1,5 +1,4 @@
-"""Tests du module binomial : convergence CRR vers Black-Scholes, prime
-d'exercice anticipe du put americain."""
+"""Tests du module binomial : convergence CRR vers Black-Scholes, prime d'exercice anticipe du put americain."""
 
 from __future__ import annotations
 
@@ -19,8 +18,6 @@ VOL = 0.22
 def test_crr_convergence_to_black_scholes():
     steps_grid = np.array([50, 200, 800])
     errors = convergence_to_bs(SPOT, STRIKE, MATURITY, RATE, DIVIDEND, VOL, "call", steps_grid)
-    # L'erreur doit diminuer globalement quand n_steps augmente et rester
-    # petite pour un grand nombre de pas.
     assert errors[-1] < errors[0]
     assert errors[-1] < 0.05
 
