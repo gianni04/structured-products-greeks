@@ -5,6 +5,8 @@ measuring their risk: Black-Scholes greeks up to third order, binomial tree,
 implied volatility, Monte Carlo pricing of autocallables and other notes,
 portfolio greeks and a delta hedging simulation.
 
+A short note with the method and results: [note/structured-products-greeks.pdf](note/structured-products-greeks.pdf).
+
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
 ![tests: 14 passed](https://img.shields.io/badge/tests-14%20passed-brightgreen)
