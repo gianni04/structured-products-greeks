@@ -9,7 +9,7 @@ A short note with the method and results: [note/structured-products-greeks.pdf](
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
-![tests: 14 passed](https://img.shields.io/badge/tests-14%20passed-brightgreen)
+![tests: 15 passed](https://img.shields.io/badge/tests-15%20passed-brightgreen)
 
 ## What it covers
 
@@ -58,8 +58,10 @@ reaching maturity 34.4%, and of a capital loss in that case 22.7%.
 ![Autocall](docs/img/03_autocall_pricing.png)
 
 **Portfolio** (long call, short put, protected note, bonus certificate):
-delta-equivalent exposure 66,931 EUR, vega P&L +236 EUR per vol point. The
-spot x vol stress grid goes from -12,827 EUR to +18,663 EUR.
+delta-equivalent exposure 101,111 EUR, vega P&L +102 EUR per vol point. The
+spot x vol stress grid goes from -18,482 EUR to +24,661 EUR. The structured
+products are bumped with strike, barrier and reference spot held at their
+contract values, so they carry their own delta, gamma and vega.
 
 **Delta hedging:** the replication error falls from 5.40 (one rehedge) to
 0.39 (daily rehedging), in line with 1/sqrt(n). With 10 bp costs, the average

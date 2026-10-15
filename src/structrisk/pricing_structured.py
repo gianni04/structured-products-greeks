@@ -179,15 +179,21 @@ def price_capital_protected_note_mc(spot: float, vol: float, rate: float, divide
 
 
 def price_capital_protected_note_decomposition(spot: float, vol: float, rate: float, dividend: float,
-                                                maturity: float, spec: CapitalProtectedNoteSpec) -> float:
-    """Prix par décomposition en briques (zero-coupon + call-spread) d'une note à capital protégé."""
+                                                maturity: float, spec: CapitalProtectedNoteSpec,
+                                                spot_ref: float | None = None) -> float:
+    """Prix par décomposition en briques (zero-coupon + call-spread) d'une note à capital protégé.
+
+    ``spot_ref`` est le spot initial qui fixe les strikes (par défaut ``spot``). Il doit rester
+    fixe quand on bump le spot pour calculer les Grecques.
+    """
+    ref = spot if spot_ref is None else spot_ref
     zero_coupon = spec.protection_level * spec.notional * np.exp(-rate * maturity)
-    strike_low = spec.strike_level * spot
-    strike_high = spec.cap_level * spot
+    strike_low = spec.strike_level * ref
+    strike_high = spec.cap_level * ref
     call_low = bs_price(spot, strike_low, maturity, rate, dividend, vol, "call")
     call_high = bs_price(spot, strike_high, maturity, rate, dividend, vol, "call")
     call_spread_value = call_low - call_high
-    option_leg = spec.participation_rate * (spec.notional / spot) * call_spread_value
+    option_leg = spec.participation_rate * (spec.notional / ref) * call_spread_value
     return float(zero_coupon + option_leg)
 
 

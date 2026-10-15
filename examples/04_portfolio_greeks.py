@@ -51,17 +51,20 @@ pos_put = Position(
 note_spec = CapitalProtectedNoteSpec(
     notional=1000.0, protection_level=1.00, participation_rate=0.80, strike_level=1.00, cap_level=1.30,
 )
-note_price = price_capital_protected_note_decomposition(SPOT, VOL, RATE, DIVIDEND, MATURITY, note_spec)
+def _price_note(spot: float, vol: float) -> float:
+    # Strikes fixés au spot initial : seul le spot bouge dans le bump.
+    return price_capital_protected_note_decomposition(spot, vol, RATE, DIVIDEND, MATURITY, note_spec,
+                                                      spot_ref=SPOT)
+
+
+note_price = _price_note(SPOT, VOL)
 h = 0.01 * SPOT
-note_price_up = price_capital_protected_note_decomposition(SPOT + h, VOL, RATE, DIVIDEND, MATURITY, note_spec)
-note_price_dn = price_capital_protected_note_decomposition(SPOT - h, VOL, RATE, DIVIDEND, MATURITY, note_spec)
+note_price_up = _price_note(SPOT + h, VOL)
+note_price_dn = _price_note(SPOT - h, VOL)
 note_delta_unit = (note_price_up - note_price_dn) / (2.0 * h)
 note_gamma_unit = (note_price_up - 2.0 * note_price + note_price_dn) / (h ** 2)
 h_vol = 0.01
-note_vega_unit = (
-    price_capital_protected_note_decomposition(SPOT, VOL + h_vol, RATE, DIVIDEND, MATURITY, note_spec)
-    - price_capital_protected_note_decomposition(SPOT, VOL - h_vol, RATE, DIVIDEND, MATURITY, note_spec)
-) / (2.0 * h_vol)
+note_vega_unit = (_price_note(SPOT, VOL + h_vol) - _price_note(SPOT, VOL - h_vol)) / (2.0 * h_vol)
 pos_note = Position(
     name="Note capital protégé 80% cap 130%", underlying="ACTION_X", quantity=50.0, multiplier=1.0,
     spot=SPOT, greeks={"delta": note_delta_unit, "gamma": note_gamma_unit, "vega": note_vega_unit},
@@ -73,10 +76,11 @@ n_paths_bonus = 100_000
 n_steps_bonus = 52
 
 
-def _price_bonus_cap(spot: float) -> float:
-    paths = simulate_gbm_paths(np.array([spot]), RATE, np.array([DIVIDEND]), np.array([VOL]),
+def _price_bonus_cap(spot: float, vol: float = VOL) -> float:
+    # Performance mesurée par rapport au spot initial (SPOT), pas au spot bumpé.
+    paths = simulate_gbm_paths(np.array([spot]), RATE, np.array([DIVIDEND]), np.array([vol]),
                                 np.array([[1.0]]), MATURITY, n_steps_bonus, n_paths_bonus, SEED, True)
-    performance = paths[:, :, 0] / spot
+    performance = paths[:, :, 0] / SPOT
     payoff = bonus_cap_payoff(performance, bonus_spec)
     return float(np.mean(payoff * np.exp(-RATE * MATURITY)))
 
@@ -86,9 +90,10 @@ bonus_price_up = _price_bonus_cap(SPOT + h)
 bonus_price_dn = _price_bonus_cap(SPOT - h)
 bonus_delta_unit = (bonus_price_up - bonus_price_dn) / (2.0 * h)
 bonus_gamma_unit = (bonus_price_up - 2.0 * bonus_price + bonus_price_dn) / (h ** 2)
+bonus_vega_unit = (_price_bonus_cap(SPOT, VOL + h_vol) - _price_bonus_cap(SPOT, VOL - h_vol)) / (2.0 * h_vol)
 pos_bonus = Position(
     name="Bonus cappé 105%/125% barrière 70%", underlying="ACTION_X", quantity=30.0, multiplier=1.0,
-    spot=SPOT, greeks={"delta": bonus_delta_unit, "gamma": bonus_gamma_unit, "vega": 0.0},
+    spot=SPOT, greeks={"delta": bonus_delta_unit, "gamma": bonus_gamma_unit, "vega": bonus_vega_unit},
     price=bonus_price,
 )
 
