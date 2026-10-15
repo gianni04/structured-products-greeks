@@ -14,10 +14,10 @@ A short note with the method and results: [note/structured-products-greeks.pdf](
 ## What it covers
 
 - **Greeks:** delta, gamma, vega, theta, rho, and higher order (vanna, volga,
-  charm, speed, zomma, color, veta), all from closed-form formulas.
-- **Pricing:** Black-Scholes-Merton, Cox-Ross-Rubinstein tree, implied vol
+  charm, speed, zomma, color, veta), all from closed-form formulas (Haug, 2007).
+- **Pricing:** Black-Scholes-Merton (Black and Scholes, 1973; Merton, 1973), Cox-Ross-Rubinstein tree (1979), implied vol
   (Newton-Raphson with a Brent fallback).
-- **Structured products by Monte Carlo:** Phoenix autocall (memory coupon),
+- **Structured products by Monte Carlo (Glasserman, 2003):** Phoenix autocall (memory coupon),
   reverse convertible, capped bonus certificate, capital protected note,
   worst-of basket option. Greeks by bump-and-revalue with common random
   numbers, so they stay stable on discontinuous payoffs.
@@ -78,6 +78,9 @@ cost grows from -0.11 to -0.56, so hedging more often is not always better.
 
 ## References
 
-Hull, *Options, Futures, and Other Derivatives*; Haug, *The Complete Guide to
-Option Pricing Formulas*; Glasserman, *Monte Carlo Methods in Financial
-Engineering*.
+- Black, F. and Scholes, M. (1973). The pricing of options and corporate liabilities. Journal of Political Economy, 81(3), 637-654. https://doi.org/10.1086/260062
+- Cox, J. C., Ross, S. A. and Rubinstein, M. (1979). Option pricing: a simplified approach. Journal of Financial Economics, 7(3), 229-263. https://doi.org/10.1016/0304-405x(79)90015-1
+- Glasserman, P. (2003). Monte Carlo Methods in Financial Engineering. New York: Springer. https://doi.org/10.1007/978-0-387-21617-1
+- Haug, E. G. (2007). The Complete Guide to Option Pricing Formulas, 2nd ed. McGraw-Hill.
+- Hull, J. C. Options, Futures, and Other Derivatives. Pearson.
+- Merton, R. C. (1973). Theory of rational option pricing. Bell Journal of Economics and Management Science, 4(1), 141-183. https://doi.org/10.2307/3003143
